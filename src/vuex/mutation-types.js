@@ -1,0 +1,7 @@
+export const GET_MESSAGE = '获取文本信息'
+export const REMOTE_ADD_ACTIVE_SONG = '歌曲加入当前播放'
+export const REMOTE_ADD_SONG = '歌曲加入歌单'
+export const REMOTE_CUT_SONG = '切歌'
+export const REMOTE_DELETE_SONG = '删歌'
+export const REMOTE_RAISE_SONG = '顶歌'
+export const INIT_SONGS = '初始化歌曲列表'
