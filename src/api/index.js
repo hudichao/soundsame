@@ -1,8 +1,5 @@
 import $ from 'jquery'
 
-// eslint-disable-next-line
-const ws = new WebSocket('ws://127.0.0.1:3333')
-
 const ajax = config => {
     return new Promise((resolve, reject) => {
         $.ajax(config)
@@ -17,6 +14,9 @@ const ajax = config => {
 export const wsUrl = process.env.NODE_ENV !== 'production' ? 'ws://127.0.0.1:3333' : 'ws://120.55.93.6:3333'
 
 export const url = process.env.NODE_ENV !== 'production' ? 'http://127.0.0.1:3333' : 'http://120.55.93.6:3333'
+
+// eslint-disable-next-line
+const ws = new WebSocket(wsUrl)
 
 export const searchSong = songName => {
     return new Promise((resolve, reject) => {
