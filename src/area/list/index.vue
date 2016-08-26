@@ -1,33 +1,31 @@
 <template>
 <div class="listArea">
-<div class="search">
-    <form>
-        <input type="text" v-model="input">
-        <button type="submit" @click.prevent="search()">搜索歌曲</button>
-        <button @click.prevent="showOld()" :class="{active: showOldSongs}">歌曲历史</button>
-    </form>
-    <div class="searchResult" v-show="showSearchResult">
-        <div v-if="searchResult.length > 0">
-            <span class="one-song" v-for="one in searchResult" track-by="song_id">
-                {{one.name}}<button @click="add(one)">加入歌单</button>
+    <oldsong-modal :show.sync="showHistoryModal" :data="oldSongs"></oldsong-modal>
+    <searchsong-modal :show.sync="showSearchModal" :data="searchResult"></searchsong-modal>
+    <div class="wrapper">
+        <div class="search">
+            <form>
+                <input type="text" v-model="input">
+                <span class="btns">
+                    <button type="submit" @click.prevent="doSearch()">搜索歌曲</button>
+                    <button @click.prevent="viewHistory()">歌曲历史</button>
+                </span>
+            </form>
+        </div>
+
+        <div class="songList">
+            <span class="one-song" v-if="activeSong.name">正在播放~~~~~{{activeSong.name}}
+                <span class="btn">
+                    <button class="musicAction" @click="cut(song)">切</button>
+                </span>
+            </span>
+            <span class="one-song" v-for="song in songs" track-by="id">{{song.name}}
+                <span class="btns">
+                    <button class="musicAction" @click="raise(song)">顶</button>
+                    <button class="musicAction" @click="remove(song)">删</button>
+                </span>
             </span>
         </div>
-        <div v-else>
-            <span>没有找到歌曲！</span>
-        </div>
-    </div>
-    <div class="songList" v-for="song in oldSongs" track-by="$index" v-if="showOldSongs">
-        <span class="one-song">{{song.name}}
-            <button @click="add(song)">加入歌单</button>
-        </span>
-    </div>
-
-    <div class="songList">
-        <span class="one-song" v-if="activeSong.name">正在播放~~~~~{{activeSong.name}}</span>
-        <span class="one-song" v-for="song in songs" track-by="id">{{song.name}}
-            <button @click="remove(song)">删</button>
-            <button @click="raise(song)">顶</button>
-        </span>
     </div>
 </div>
 </div>
@@ -36,27 +34,37 @@
 
 <script>
 import * as api from '../../api'
-import {addSong, deleteSong, raiseSong, initSongs, getMusic} from '../../vuex/actions'
+import {addSong, deleteSong, raiseSong, initSongs, getMusic, cutSong} from '../../vuex/actions'
 import {oldSongs, songs, activeSong} from '../../vuex/getters'
+import OldsongModal from '../../components/oldsong_modal.vue'
+import SearchsongModal from '../../components/searchsong_modal.vue'
+
 export default {
     data () {
         return {
             input: '',
-            searchResult: [],
-            showSearchResult: false,
-            showOldSongs: false
+            searchResult: {data: [], isLoading: false},
+            showOldSongs: false,
+            showHistoryModal: false,
+            showSearchModal: false
         }
     },
     methods: {
-        search () {
-            api.searchSong(this.input)
-            .then(data => {
-                this.searchResult = data ? data.slice(0, 5) : []
-                this.showSearchResult = true
-            })
+        doSearch () {
+            if (this.input) {
+                this.showSearchModal = true
+                this.searchResult = {data: [], isLoading: true}
+                api.searchSong(this.input)
+                .then(data => {
+                    var result = data ? data.slice(0, 5) : []
+                    this.searchResult = {
+                        data: result,
+                        isLoading: false
+                    }
+                })
+            }
         },
         add (song) {
-            this.showSearchResult = false
             this.addSong(song)
         },
         raise (song) {
@@ -65,8 +73,12 @@ export default {
         remove (song) {
             this.deleteSong(song.id)
         },
-        showOld () {
-            this.showOldSongs = !this.showOldSongs
+        cut () {
+            this.currentTime = 0
+            this.cutSong()
+        },
+        viewHistory () {
+            this.showHistoryModal = true
         }
     },
     events: {
@@ -82,6 +94,10 @@ export default {
     ready () {
         this.initSongs()
     },
+    components: {
+        OldsongModal,
+        SearchsongModal
+    },
     vuex: {
         getters: {
             songs,
@@ -93,7 +109,8 @@ export default {
             deleteSong,
             raiseSong,
             initSongs,
-            getMusic
+            getMusic,
+            cutSong
         }
     }
 }

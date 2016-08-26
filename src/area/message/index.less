@@ -1,8 +1,8 @@
 .messageArea {
-    @inputAreaHeight: 30px;
+    @inputAreaHeight: 48px;
 
     border-left: 5px solid grey;
-    width: 30%;
+    width: 38%;
     height: 100%;
     position: relative;
     display: inline-block;
@@ -12,8 +12,9 @@
         height: calc(~"100vh" - @inputAreaHeight);
         overflow-y: auto;
         li {
-            border: 1px solid red;
-            height: 30px;
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            line-height: 1.5;
         }
     }
     
@@ -22,16 +23,15 @@
         bottom: 0;
         left: 0;
         right: 0;
-        border: 1px solid blue;
+        border-top: 1px solid #ccc;
         height: @inputAreaHeight;
         form {
             height: 100%;
             width: 100%;
-            padding-top: @inputAreaHeight * 0.1;
-            padding-bottom: @inputAreaHeight * 0.1;
+            padding-top: (@inputAreaHeight - 28) / 2;
+            padding-bottom: (@inputAreaHeight - 28) / 2;
         }
         input {
-            height: 100%;
             width: calc(~"100%" - 100px);
             margin-left: 10px;
         }

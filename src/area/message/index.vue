@@ -28,7 +28,7 @@ export default {
     data () {
         return {
             message: {
-                name: 'ha',
+                name: '',
                 body: '',
                 time: null
             }

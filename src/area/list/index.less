@@ -1,51 +1,55 @@
 .listArea {
     border-left: 5px solid grey;
-    width: 30%;
+    width: 62%;
     display: inline-block;
     height: 100%;
     position: relative;
     font-size: 14px;
     vertical-align: top;
-    .search {
-        @height: 30px;
-        height: @height;
-        padding-top: @height * 0.1;
-        padding-bottom: @height * 0.1;
-        form {
-            height: 100%;
-            width: 100%;
-        }
-        input {
-            height: 100%;
-            width: calc(~"100%" - 200px);
-            margin-left: 10px;
-        }
-        button {
-            height: 100%;
-            margin: 0 10px;
-            width: 60px;
-            &.acitve {
-                bolor: blue;
+    .wrapper {
+        margin-left: 20px;
+        margin-right: 20px;
+        .search {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            form {
+                width: 100%;
             }
-        }
-    }
-    .searchResult {
-        .one-song {
-            display: block;
-            padding: 10px;
-            button {
+            input {
+                width: calc(~"100%" - 200px);
+            }
+            .btns, .btn {
                 float: right;
+            }
+            button {
+                height: 28px;
+                margin: 0 10px;
+                padding: 0 0.5em;
+                &:last-child {
+                    margin-right: 0;
+                }
             }
         }
     }
     .songList {
         .one-song {
             display: block;
-            padding: 10px;
-            button {
-                margin-right: 10px;
+            padding: 10px 0;
+            .btns, .btn {
                 float: right;
             }
+            button {
+                margin: 0 10px;
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
         }
+    }
+
+    button.musicAction {
+        display: inline-block;
+        width: 1.5em;
+        height: 1.5em;
     }
 }
