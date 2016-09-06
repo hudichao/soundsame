@@ -3,6 +3,7 @@
         <music-area></music-area>
         <list-area></list-area>
         <message-area></message-area>
+        <button id="wb_connect_btn"></button>
     </div>
 </template>
 
@@ -37,6 +38,23 @@ export default {
         this.ws.onopen = onopen
         this.ws.onmessage = onmessage
         this.ws.onclose = onclose
+
+        setTimeout(function () {
+            // eslint-disable-next-line
+            WB2.anyWhere(function (W) {
+                W.widget.connectButton({
+                    id: 'wb_connect_btn',
+                    type: '1,2',
+                    callback: {
+                        login: function (o) {
+                            console.log(o)
+                        },
+                        logout: function (o) {
+                        }
+                    }
+                })
+            })
+        }, 300)
     },
     components: {
         musicArea,
@@ -78,6 +96,12 @@ input[type="text"] {
 }
 a {
     text-decoration: none;
+}
+
+#wb_connect_btn {
+    position: fixed;
+    left: 50%;
+    top: 50%;
 }
 
 </style>
