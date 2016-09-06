@@ -13,7 +13,7 @@
 
 <script>
 import Modal from './modal'
-import {addSong} from '../vuex/actions'
+import {vxAddSong} from 'src/vuex/actions'
 
 export default {
     props: {
@@ -40,7 +40,7 @@ export default {
     },
     vuex: {
         actions: {
-            addSong
+            vxAddSong
         }
     }
 }

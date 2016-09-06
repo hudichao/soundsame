@@ -33,11 +33,12 @@
 
 
 <script>
-import * as api from '../../api'
-import {addSong, deleteSong, raiseSong, initSongs, getMusic, cutSong} from '../../vuex/actions'
-import {oldSongs, songs, activeSong} from '../../vuex/getters'
-import OldsongModal from '../../components/oldsong_modal.vue'
-import SearchsongModal from '../../components/searchsong_modal.vue'
+import * as api from 'src/api'
+import {vxAddSong, vxDeleteSong, vxRaiseSong, vxInitSongs, vxGetMusic, vxCutSong, vxNotAuthed} from 'src/vuex/actions'
+import {oldSongs, songs, activeSong} from 'src/vuex/getters'
+
+import OldsongModal from 'src/components/oldsong_modal.vue'
+import SearchsongModal from 'src/components/searchsong_modal.vue'
 
 export default {
     data () {
@@ -65,17 +66,17 @@ export default {
             }
         },
         add (song) {
-            this.addSong(song)
+            this.vxAddSong(song)
         },
         raise (song) {
-            this.raiseSong(song.id)
+            this.vxRaiseSong(song.id)
         },
         remove (song) {
-            this.deleteSong(song.id)
+            this.vxDeleteSong(song.id)
         },
         cut () {
             this.currentTime = 0
-            this.cutSong()
+            this.vxCutSong()
         },
         viewHistory () {
             this.showHistoryModal = true
@@ -87,12 +88,17 @@ export default {
             var typeArray = ['ADD_SONG', 'CUT_SONG', 'RAISE_SONG', 'DELETE_SONG', 'ADD_ACTIVE_SONG']
 
             if (typeArray.indexOf(data.type) > -1) {
-                this.getMusic(data)
+                this.vxGetMusic(data)
             }
         }
     },
     ready () {
-        this.initSongs()
+        this.vxInitSongs()
+        .then(() => {}, err => {
+            if (err.status === 401) {
+                this.vxNotAuthed()
+            }
+        })
     },
     components: {
         OldsongModal,
@@ -105,12 +111,13 @@ export default {
             oldSongs
         },
         actions: {
-            addSong,
-            deleteSong,
-            raiseSong,
-            initSongs,
-            getMusic,
-            cutSong
+            vxAddSong,
+            vxDeleteSong,
+            vxRaiseSong,
+            vxInitSongs,
+            vxGetMusic,
+            vxCutSong,
+            vxNotAuthed
         }
     }
 }

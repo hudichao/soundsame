@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import message from './modules/message'
 import music from './modules/music'
+import user from './modules/user'
 
 import createLogger from 'vuex/logger'
 
@@ -13,7 +14,8 @@ const debug = process.env.NODE_ENV !== 'production'
 export default new Vuex.Store({
     modules: {
         message,
-        music
+        music,
+        user
     },
     strict: true,
     middlewares: debug ? [createLogger()] : []

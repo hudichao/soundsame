@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import sound from '../../components/sound'
-import {activeSong} from '../../vuex/getters'
-import {cutSong} from '../../vuex/actions'
+import sound from 'src/components/sound'
+import {activeSong} from 'src/vuex/getters'
+import {vxCutSong} from 'src/vuex/actions'
 
 export default {
     components: {
@@ -26,7 +26,7 @@ export default {
         cut () {
             console.log('cut!')
             this.currentTime = 0
-            this.cutSong()
+            this.vxCutSong()
         }
     },
     ready () {
@@ -36,7 +36,7 @@ export default {
     },
     vuex: {
         actions: {
-            cutSong
+            vxCutSong
         },
         getters: {
             activeSong

@@ -17,3 +17,7 @@ export const activeSong = state => {
 export const oldSongs = state => {
     return state.music.oldSongs
 }
+
+export const needLogin = state => {
+    return state.user.needLogin
+}

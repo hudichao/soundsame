@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import {getMessage} from '../../vuex/actions'
-import {messages} from '../../vuex/getters'
-import * as api from '../../api'
+import {vxGetMessage} from 'src/vuex/actions'
+import {messages} from 'src/vuex/getters'
+import * as api from 'src/api'
 
 export default {
     data () {
@@ -46,7 +46,7 @@ export default {
         wsmessage (data) {
             if (data.type === 'CHAT') {
                 console.log(data)
-                this.getMessage(data.data)
+                this.vxGetMessage(data.data)
             }
         }
     },
@@ -55,7 +55,7 @@ export default {
             messages
         },
         actions: {
-            getMessage
+            vxGetMessage
         }
     },
     ready () {

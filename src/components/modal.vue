@@ -26,8 +26,7 @@ export default {
     props: {
         show: {
             type: Boolean,
-            required: true,
-            twoWay: true
+            required: true
         },
         onClose: {
             type: Function,

@@ -1,8 +1,23 @@
 import $ from 'jquery'
 
+export const wsUrl = process.env.NODE_ENV !== 'production' ? 'ws://127.0.0.1:3333' : 'ws://120.55.93.6:3333'
+
+export const url = process.env.NODE_ENV !== 'production' ? 'http://127.0.0.1:3333' : 'http://120.55.93.6:3333'
+
 const ajax = config => {
+    let sendConfig = {}
+    if (config.url.indexOf(url) > -1) {
+        var token = 'test'
+        let sendData = Object.assign({}, config.data, {room_id: 2, _token: token})
+        sendConfig = Object.assign({}, config, {
+            data: sendData
+        })
+    } else {
+        sendConfig = config
+    }
+    console.log(sendConfig)
     return new Promise((resolve, reject) => {
-        $.ajax(config)
+        $.ajax(sendConfig)
         .then(response => {
             resolve(response)
         }, err => {
@@ -10,10 +25,6 @@ const ajax = config => {
         })
     })
 }
-
-export const wsUrl = process.env.NODE_ENV !== 'production' ? 'ws://127.0.0.1:3333' : 'ws://120.55.93.6:3333'
-
-export const url = process.env.NODE_ENV !== 'production' ? 'http://127.0.0.1:3333' : 'http://120.55.93.6:3333'
 
 // eslint-disable-next-line
 const ws = new WebSocket(wsUrl)
@@ -37,6 +48,8 @@ export const searchSong = songName => {
                 })
             })
             resolve(result)
+        }, err => {
+            reject(err)
         })
     })
 }
@@ -79,9 +92,6 @@ export const deleteSong = id => {
 export const initList = roomId => {
     return ajax({
         url: url + '/api/initList',
-        data: {
-            room_id: roomId
-        },
         dataType: 'json'
     })
 }
@@ -90,3 +100,22 @@ export const saveMessage = data => {
     ws.send(JSON.stringify({type: 'CHAT', data: data}))
 }
 
+export const register = data => {
+    return ajax({
+        url: url + '/api/register',
+        data: {
+            name: data.name,
+            password: data.password
+        }
+    })
+}
+
+export const login = data => {
+    return ajax({
+        url: url + '/api/login',
+        data: {
+            name: data.name,
+            password: data.password
+        }
+    })
+}
