@@ -47,22 +47,22 @@ export default {
         this.ws.onmessage = onmessage
         this.ws.onclose = onclose
 
-        setTimeout(function () {
-            // eslint-disable-next-line
-            WB2.anyWhere(function (W) {
-                W.widget.connectButton({
-                    id: 'wb_connect_btn',
-                    type: '1,2',
-                    callback: {
-                        login: function (o) {
-                            console.log(o)
-                        },
-                        logout: function (o) {
-                        }
-                    }
-                })
-            })
-        }, 300)
+        // setTimeout(function () {
+        //     // eslint-disable-next-line
+        //     WB2.anyWhere(function (W) {
+        //         W.widget.connectButton({
+        //             id: 'wb_connect_btn',
+        //             type: '1,2',
+        //             callback: {
+        //                 login: function (o) {
+        //                     console.log(o)
+        //                 },
+        //                 logout: function (o) {
+        //                 }
+        //             }
+        //         })
+        //     })
+        // }, 300)
     },
     components: {
         musicArea,

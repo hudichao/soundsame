@@ -95,7 +95,7 @@ export default {
     ready () {
         this.vxInitSongs()
         .then(() => {}, err => {
-            if (err.status === 401) {
+            if (err.status === 401 || err.status === 403) {
                 this.vxNotAuthed()
             }
         })

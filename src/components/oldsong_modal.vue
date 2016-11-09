@@ -34,7 +34,7 @@ export default {
             this.show = false
         },
         add (song) {
-            this.addSong(song)
+            this.vxAddSong(song)
             this.close()
         }
     },

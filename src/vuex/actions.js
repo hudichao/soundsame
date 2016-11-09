@@ -43,7 +43,10 @@ export const vxRegister = ({dispatch, state}, data) => {
         password: data.password
     })
     .then(res => {
+        dispatch(types.LOGINED)
         return Promise.resolve()
+    }, err => {
+        return Promise.reject(err)
     })
 }
 
@@ -54,16 +57,10 @@ export const vxLogin = ({dispatch, state}, data) => {
         password: data.password
     })
     .then(res => {
+        dispatch(types.LOGINED)
         return Promise.resolve()
-    })
-}
-
-export const vxLoginByToken = ({dispatch, state}) => {
-    return api.login({
-        name: '2',
-        password: '23'
-    })
-    .then(res => {
+    }, err => {
+        return Promise.reject(err)
     })
 }
 

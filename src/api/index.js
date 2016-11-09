@@ -1,5 +1,7 @@
 import $ from 'jquery'
 
+import auth from './auth.js'
+
 export const wsUrl = process.env.NODE_ENV !== 'production' ? 'ws://127.0.0.1:3333' : 'ws://120.55.93.6:3333'
 
 export const url = process.env.NODE_ENV !== 'production' ? 'http://127.0.0.1:3333' : 'http://120.55.93.6:3333'
@@ -7,11 +9,20 @@ export const url = process.env.NODE_ENV !== 'production' ? 'http://127.0.0.1:333
 const ajax = config => {
     let sendConfig = {}
     if (config.url.indexOf(url) > -1) {
-        var token = 'test'
-        let sendData = Object.assign({}, config.data, {room_id: 2, _token: token})
+        var token = auth.getToken()
+        var obj = {}
+
+        if (token) {
+            obj._token = token
+        }
+        if (window.room_id) {
+            obj.room_id = window.room_id
+        }
+        let sendData = Object.assign({}, config.data, obj)
         sendConfig = Object.assign({}, config, {
             data: sendData
         })
+        console.log(sendConfig)
     } else {
         sendConfig = config
     }
@@ -19,8 +30,24 @@ const ajax = config => {
     return new Promise((resolve, reject) => {
         $.ajax(sendConfig)
         .then(response => {
+            // 如果返回值有token，存token
+            if (config.url.indexOf(url) > -1 && response.token) {
+                auth.saveToken(response.token)
+            }
             resolve(response)
         }, err => {
+            console.log(err)
+            if (err.status === 416) {
+                // 去了不该去的房间
+                if (err.responseJSON && err.responseJSON.type === 'room fail') {
+                    window.location = window.location.origin
+                }
+            }
+            if (err.status === 404) {
+                if (err.responseJSON) {
+                    reject(err.responseJSON.msg)
+                }
+            }
             reject(err)
         })
     })
@@ -106,7 +133,8 @@ export const register = data => {
         data: {
             name: data.name,
             password: data.password
-        }
+        },
+        type: 'post'
     })
 }
 
@@ -116,6 +144,7 @@ export const login = data => {
         data: {
             name: data.name,
             password: data.password
-        }
+        },
+        type: 'post'
     })
 }

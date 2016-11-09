@@ -1,5 +1,6 @@
 import {
-    NEED_LOGIN
+    NEED_LOGIN,
+    LOGINED
 } from '../mutation-types'
 
 const state = {
@@ -9,6 +10,9 @@ const state = {
 const mutations = {
     [NEED_LOGIN] (state, data) {
         state.needLogin = true
+    },
+    [LOGINED] (state, data) {
+        state.needLogin = false
     }
 }
 

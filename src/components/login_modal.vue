@@ -2,12 +2,14 @@
 <modal :show="show" :on-close="close">
     <div slot="header"></div>
     <div slot="body">
-        <form>
-            用户名：<input v-model="name">{{name}}
-            密码：<input type="password" v-model="password">
-            <button @click.prevent="register()">注册</button>
-            <button @click.prevent="login()">登录</button>
-        </form>
+        <div class="form">
+            <form>
+                用户名：<input v-model="name">
+                密码：<input type="password" v-model="password">
+                <button @click.prevent="register()">注册</button>
+                <button @click.prevent="login()">登录</button>
+            </form>
+        </div>
     </div>
 </modal>
 </template>
@@ -36,9 +38,16 @@ export default {
             this.show = false
         },
         register () {
+            // 暂时 登录，注册完成后刷新页面
             this.vxRegister({
                 name: this.name,
                 password: this.password
+            })
+            // .then(() => {
+            //     window.location.reload()
+            // })
+            .catch(err => {
+                window.alert(err)
             })
         },
         login () {
@@ -46,6 +55,12 @@ export default {
             this.vxLogin({
                 name: this.name,
                 password: this.password
+            })
+            // .then(() => {
+            //     window.location.reload()
+            // })
+            .catch(err => {
+                window.alert(err)
             })
         }
     },
@@ -59,5 +74,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.form {
+    padding: 30px;
+}
 
 </style>
