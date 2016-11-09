@@ -4,7 +4,7 @@
         <music-area></music-area>
         <list-area></list-area>
         <message-area></message-area>
-        <button id="wb_connect_btn"></button>
+        <!-- <button id="wb_connect_btn"></button> -->
     </div>
     <a href="www.miitbeian.gov.cn">网站备案：沪ICP备16029507号-3</a>
 
